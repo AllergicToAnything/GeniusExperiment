@@ -11,23 +11,25 @@ public class ParticleSystemTest : MonoBehaviour
     public GameObject outerParticlePrefab;
     public GameObject smallParticlePrefab;
 
-    public float smallParticleTranslateLerpTime;
-    public float smallParticleSpawnRate;
-    float sPInitCD;
 
-    [Header("Random Spawn Local Position for Small Particle")]
+    [Header("Random Spawn Small Particle On Inner Particle")]
     public Vector3 minRandomValue = new Vector3(-5,-5,-5);
     public Vector3 maxRandomValue = new Vector3(5,5,5);
+    public float smallParticleSpawnRate;
     Vector3 randomPlace;
 
     [Header("Travel Speed for Small Particle")]
     public Vector2 scaleUpSpeedMultiplierSP = new Vector2(.5f,.5f);
     public Vector2 slowInSlowOutTimeSP = new Vector2(.5f, .5f);
+    public float smallParticleTranslateLerpTime;
+    float sPInitCD;
 
     [Header("Scale for Small Particle")]
     public Vector3 maxLocalScaleSP = new Vector3(.2f,.2f,.2f);
-    public Vector3 originalLocalScaleSP = new Vector3(.05f,.05f,.05f);
+    public Vector3 minLocalScaleSP = new Vector3(.05f,.05f,.05f);
     public Vector2 slowInSlowOutSpeedSP = new Vector2(.5f, .5f);
+    public Vector2 slowInSlowOutTimeScaleSP = new Vector2(.3f,.2f);
+    public float lerpScaleSpeedSP = 1f;
 
     [Header("Inner Particle")]
     public Vector3 maxScaleSize = new Vector3(5f,5f,0f);
@@ -108,7 +110,6 @@ public class ParticleSystemTest : MonoBehaviour
             Invoke("RevertLerp", .5f);
             scaleBackSpeed = sBS;
             
-
         }
         
     }
@@ -130,9 +131,11 @@ public class ParticleSystemTest : MonoBehaviour
 
     public void SmallParticleFunctions()
     {
+        transform.localScale = maxLocalScaleSP;
         bool slowIn = true;
         bool slowOut = false;
         float oriSpeed = smallParticleTranslateLerpTime;
+        float oriScaleSpeed = lerpScaleSpeedSP;
         Vector3 initPos = transform.localPosition;
         targetPos = GameObject.Find("ParticleEffect").transform;
         if (slowIn)
@@ -152,15 +155,41 @@ public class ParticleSystemTest : MonoBehaviour
         {
             smallParticleTranslateLerpTime = oriSpeed;
         }
-        this.transform.localPosition = Vector3.Lerp(initPos,targetPos.localPosition,smallParticleTranslateLerpTime*Time.deltaTime);
-        smallParticleTranslateLerpTime+=.15f;
+        this.transform.localPosition = Vector3.Lerp(initPos, targetPos.localPosition, smallParticleTranslateLerpTime * Time.deltaTime);
+        smallParticleTranslateLerpTime += .15f;
         Invoke("DestroyThis", .8f);
         if (this.transform.localPosition == targetPos.localPosition)
         {
-            
+            transform.localScale = Vector3.zero;
         }
+        else
+        {
+            transform.localScale = Vector3.Lerp(maxLocalScaleSP, minLocalScaleSP, lerpScaleSpeedSP * Time.deltaTime);
+            bool sslowIn = true;
+            bool sslowOut = false;
+            if (sslowIn)
+            {
+                lerpScaleSpeedSP *= slowInSlowOutSpeedSP.x;
+                sslowIn = false;
+                Wait(slowInSlowOutTimeScaleSP.x);
+                sslowOut = true;
+            }
+            if (sslowOut)
+            {
+                lerpScaleSpeedSP *= slowInSlowOutSpeedSP.y;
+                sslowOut = false;
+                Wait(slowInSlowOutTimeScaleSP.y);
+            }
+            if (!sslowIn || !sslowOut)
+            {
+                lerpScaleSpeedSP = oriScaleSpeed;
+            }
         
-    }
+           
+        }
+    
+    } 
+    
 
     public void DestroyThis()
     {

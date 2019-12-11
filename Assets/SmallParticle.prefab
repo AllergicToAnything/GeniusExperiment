@@ -209,12 +209,18 @@ MonoBehaviour:
   outerParticlePrefab: {fileID: 5957684654581448477, guid: f02c8197abe4cf04bb238a356326f4ea,
     type: 3}
   smallParticlePrefab: {fileID: 7060530027134265898}
-  smallParticleTranslateLerpTime: 0
-  smallParticleSpawnRate: 0
   minRandomValue: {x: -5, y: -5, z: -5}
   maxRandomValue: {x: 5, y: 5, z: 5}
-  slowInSlowOutSpeedMultiplier: {x: 0.5, y: 0.5}
-  slowInSlowOutTime: {x: 0.5, y: 0.5}
+  smallParticleSpawnRate: 0
+  scaleUpSpeedMultiplierSP: {x: 0.1, y: 0.1}
+  slowInSlowOutTimeSP: {x: 0.1, y: 0.1}
+  smallParticleTranslateLerpTime: 0.5
+  maxLocalScaleSP: {x: 0.2, y: 0.2, z: 0.2}
+  minLocalScaleSP: {x: 0.05, y: 0.05, z: 0.05}
+  slowInSlowOutSpeedSP: {x: 0.1, y: 0.1}
+  slowInSlowOutTimeScaleSP: {x: 0.1, y: 0.1}
+  lerpScaleSpeedSP: 1
   maxScaleSize: {x: 5, y: 5, z: 0}
   minScaleSize: {x: -5, y: -5, z: 0}
-  scaleSpeedMultiplier: {x: 0.03, y: 0.03, z: 0}
+  scaleUpSpeedMultiplier: {x: 0.03, y: 0.03, z: 0}
+  scaleBackSpeed: 0.1
