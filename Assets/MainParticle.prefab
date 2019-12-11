@@ -88,14 +88,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5957684654581448476}
-  - component: {fileID: 4324720586106261930}
+  - component: {fileID: 3230610380551750873}
   m_Layer: 0
   m_Name: MainParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5957684654581448476
 Transform:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4324720586106261930
+--- !u!114 &3230610380551750873
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,16 +124,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e53893f220ebba478ce17a4b2dec223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleType: 0
+  particleType: 2
   innerParticlePrefab: {fileID: 3220802999337665747, guid: 31a2f66fe51a2f8488c0b017c1f6389b,
     type: 3}
   outerParticlePrefab: {fileID: 5957684654581448477}
   smallParticlePrefab: {fileID: 7060530027134265898, guid: a5c92446ba75924438d9daa6f33c6752,
     type: 3}
-  smallParticleTravelingSpeed: 0
+  smallParticleTranslateLerpTime: 0
   smallParticleSpawnRate: 0
   minRandomValue: {x: -5, y: -5, z: -5}
   maxRandomValue: {x: 5, y: 5, z: 5}
+  slowInSlowOutSpeedMultiplier: {x: 0.5, y: 0.5}
+  slowInSlowOutTime: {x: 0.5, y: 0.5}
+  maxScaleSize: {x: 5, y: 5, z: 0}
+  minScaleSize: {x: -5, y: -5, z: 0}
+  scaleSpeedMultiplier: {x: 0.03, y: 0.03, z: 0}
 --- !u!1 &5957684654888393533
 GameObject:
   m_ObjectHideFlags: 0

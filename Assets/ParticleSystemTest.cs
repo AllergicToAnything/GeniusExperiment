@@ -12,17 +12,32 @@ public class ParticleSystemTest : MonoBehaviour
     public GameObject smallParticlePrefab;
 
     public float smallParticleTranslateLerpTime;
-    //public float smallParticleTranslateStartLerpAfter;
     public float smallParticleSpawnRate;
     float sPInitCD;
-    Vector3 randomPlace;
+
+    [Header("Random Spawn Local Position for Small Particle")]
     public Vector3 minRandomValue = new Vector3(-5,-5,-5);
     public Vector3 maxRandomValue = new Vector3(5,5,5);
+    Vector3 randomPlace;
+    
+
+    [Header("Scale Animation for Small Particle")]
+    public Vector2 slowInSlowOutSpeedMultiplier = new Vector2(.5f,.5f);
+    public Vector2 slowInSlowOutTime = new Vector2(.5f, .5f);
+
+    [Header("Inner Particle")]
+    public Vector3 maxScaleSize = new Vector3(5f,5f,0f);
+    public Vector3 minScaleSize = new Vector3(-5f, -5f, 0f);
+    public Vector3 scaleUpSpeedMultiplier = new Vector3(.03f, .03f, 0);
+    public float scaleBackSpeed = .1f;
+
     Transform targetPos;
+    Vector3 oriScale; // this game object original local scale
 
     private void OnEnable()
     {
         sPInitCD = smallParticleSpawnRate;
+        oriScale = this.transform.localScale;
     }
     private void Update()
     {
@@ -49,29 +64,59 @@ public class ParticleSystemTest : MonoBehaviour
 
     public void InnerParticleFunctions()
     {
-        Vector3 xyz = new Vector3(1, 1, 0);
-        if (Input.GetKey(KeyCode.Space))
-        {
-            xyz += new Vector3(3f, 3f, 0);
-            this.transform.localScale += new Vector3(.01f*xyz.x,.01f*xyz.y,0);
-            if (smallParticleSpawnRate > 0)
+        bool startLerpBack = false;
+        Vector3 xyz = new Vector3(1, 1, 1);
+        Vector3 thisScale = transform.localScale;
+        if (!(thisScale.x >= maxScaleSize.x&& thisScale.y >= maxScaleSize.y&& thisScale.z >= maxScaleSize.z) &&
+            !(thisScale.x <= minScaleSize.x && thisScale.y <= minScaleSize.y && thisScale.z <= minScaleSize.z)) {
+            if (Input.GetKey(KeyCode.Space))
             {
-                smallParticleSpawnRate -= Time.deltaTime;
-            }
-            if (smallParticleSpawnRate <= 0)
-            {
-                randomPlace =
-                    new Vector3(
-                                    Random.Range(minRandomValue.x*xyz.x, maxRandomValue.x * xyz.x),
-                                    Random.Range(minRandomValue.y * xyz.y, maxRandomValue.y * xyz.y),
-                                    Random.Range(minRandomValue.z, maxRandomValue.z)
-                                );
-                randomPlace += innerParticlePrefab.transform.position;
-                Spawn(smallParticlePrefab, randomPlace, smallParticlePrefab.transform.rotation);
-                smallParticleSpawnRate = sPInitCD;
+                xyz += new Vector3(scaleUpSpeedMultiplier.x, scaleUpSpeedMultiplier.y, scaleUpSpeedMultiplier.z);
+                this.transform.localScale += new Vector3(.01f * xyz.x, .01f * xyz.y, .01f * xyz.z);
+
+                if (smallParticleSpawnRate > 0)
+                {
+                    smallParticleSpawnRate -= Time.deltaTime;
+                }
+                if (smallParticleSpawnRate <= 0)
+                {
+                    randomPlace =
+                        new Vector3(
+                                        Random.Range(minRandomValue.x * xyz.x*10, maxRandomValue.x * xyz.x*10),
+                                        Random.Range(minRandomValue.y * xyz.y * 10, maxRandomValue.y * xyz.y * 10),
+                                        Random.Range(minRandomValue.z, maxRandomValue.z)
+                                    );
+                    randomPlace += innerParticlePrefab.transform.position;
+                    Spawn(smallParticlePrefab, randomPlace, smallParticlePrefab.transform.rotation);
+                    smallParticleSpawnRate = sPInitCD;
+                }
             }
         }
+        if (transform.localScale != oriScale && !Input.GetKey(KeyCode.Space))
+        {
+            startLerpBack = true;
+        }
+        if (startLerpBack)
+        {
+            float sBS = scaleBackSpeed;
+            if (transform.localScale == oriScale) { startLerpBack = false; }
+            scaleBackSpeed = .5f;
+            Invoke("RevertLerp", .5f);
+            scaleBackSpeed = sBS;
+            
+
+        }
         
+    }
+
+    void RevertLerp()
+    {
+        transform.localScale = Vector3.Lerp(transform.localScale, oriScale, scaleBackSpeed * Time.deltaTime);
+    }
+
+    IEnumerator Wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 
     public void OuterParticleFunctions()
@@ -81,15 +126,41 @@ public class ParticleSystemTest : MonoBehaviour
 
     public void SmallParticleFunctions()
     {
+        bool slowIn = true;
+        bool slowOut = false;
+        float oriSpeed = smallParticleTranslateLerpTime;
         Vector3 initPos = transform.localPosition;
         targetPos = GameObject.Find("ParticleEffect").transform;
+        if (slowIn)
+        {
+            smallParticleTranslateLerpTime *= slowInSlowOutSpeedMultiplier.x;
+            slowIn = false;
+            Wait(slowInSlowOutTime.x);
+            slowOut = true;
+        }
+        if (slowOut)
+        {
+            smallParticleTranslateLerpTime *= slowInSlowOutSpeedMultiplier.y;
+            slowOut = false;
+            Wait(slowInSlowOutTime.y);
+        }
+        if (!slowIn || !slowOut)
+        {
+            smallParticleTranslateLerpTime = oriSpeed;
+        }
         this.transform.localPosition = Vector3.Lerp(initPos,targetPos.localPosition,smallParticleTranslateLerpTime*Time.deltaTime);
         smallParticleTranslateLerpTime+=.15f;
-       if(this.transform.localPosition == targetPos.localPosition)
+        Invoke("DestroyThis", .8f);
+        if (this.transform.localPosition == targetPos.localPosition)
         {
-            Destroy(this.gameObject);
+            
         }
         
+    }
+
+    public void DestroyThis()
+    {
+        Destroy(gameObject);
     }
 
     public void Spawn(GameObject spawningObject, Vector3 parentTransform,Quaternion rotation)

@@ -167,7 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3220802999337665746}
-  - component: {fileID: 2409924479758399479}
+  - component: {fileID: 3646046152323441700}
   m_Layer: 0
   m_Name: InnerParticle
   m_TagString: Untagged
@@ -184,14 +184,14 @@ Transform:
   m_GameObject: {fileID: 3220802999337665747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.073961616, y: -0.024163213, z: 0.31433105}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_Children:
   - {fileID: 3220802998890593266}
   - {fileID: 3220802998299637605}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2409924479758399479
+--- !u!114 &3646046152323441700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,6 +210,12 @@ MonoBehaviour:
   smallParticlePrefab: {fileID: 7060530027134265898, guid: a5c92446ba75924438d9daa6f33c6752,
     type: 3}
   smallParticleTranslateLerpTime: 0
-  smallParticleSpawnRate: 0.01
-  minRandomValue: {x: -2.5, y: -2.5, z: -2.5}
-  maxRandomValue: {x: 2.5, y: 2.5, z: 2.5}
+  smallParticleSpawnRate: 0
+  minRandomValue: {x: -5, y: -5, z: -5}
+  maxRandomValue: {x: 5, y: 5, z: 5}
+  slowInSlowOutSpeedMultiplier: {x: 0.5, y: 0.5}
+  slowInSlowOutTime: {x: 0.5, y: 0.5}
+  maxScaleSize: {x: 5, y: 5, z: 0}
+  minScaleSize: {x: -5, y: -5, z: 0}
+  scaleSpeedMultiplier: {x: 0.03, y: 0.03, z: 0}
+  scaleBackSpeed: 5

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 public class ParticlesScript : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class ParticlesScript : MonoBehaviour
         }
     }
     */
+
 }
 /*
 [CustomEditor(typeof(ParticlesScript))]
@@ -32,7 +34,6 @@ public class ParticlesEditor : Editor
 
 
 }*/
-
 
 
 public enum ParticleType { SmallParticle , InnerParticle , OuterParticle }

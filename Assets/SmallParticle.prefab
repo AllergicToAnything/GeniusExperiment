@@ -167,7 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7060530027134265899}
-  - component: {fileID: 9207137628678686381}
+  - component: {fileID: 3337844042212274704}
   m_Layer: 0
   m_Name: SmallParticle
   m_TagString: Untagged
@@ -191,7 +191,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9207137628678686381
+--- !u!114 &3337844042212274704
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,7 +209,12 @@ MonoBehaviour:
   outerParticlePrefab: {fileID: 5957684654581448477, guid: f02c8197abe4cf04bb238a356326f4ea,
     type: 3}
   smallParticlePrefab: {fileID: 7060530027134265898}
-  smallParticleTranslateLerpTime: 0.1
+  smallParticleTranslateLerpTime: 0
   smallParticleSpawnRate: 0
   minRandomValue: {x: -5, y: -5, z: -5}
   maxRandomValue: {x: 5, y: 5, z: 5}
+  slowInSlowOutSpeedMultiplier: {x: 0.5, y: 0.5}
+  slowInSlowOutTime: {x: 0.5, y: 0.5}
+  maxScaleSize: {x: 5, y: 5, z: 0}
+  minScaleSize: {x: -5, y: -5, z: 0}
+  scaleSpeedMultiplier: {x: 0.03, y: 0.03, z: 0}
