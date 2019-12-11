@@ -62,7 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MonoScript.cs" />
+    <Compile Include="Assets\ComponentManager.cs" />
     <Compile Include="Assets\ParticlesScript.cs" />
     <Compile Include="Assets\ParticleSystemTest.cs" />
     <Reference Include="Unity.Timeline.Editor">

@@ -19,11 +19,15 @@ public class ParticleSystemTest : MonoBehaviour
     public Vector3 minRandomValue = new Vector3(-5,-5,-5);
     public Vector3 maxRandomValue = new Vector3(5,5,5);
     Vector3 randomPlace;
-    
 
-    [Header("Scale Animation for Small Particle")]
-    public Vector2 slowInSlowOutSpeedMultiplier = new Vector2(.5f,.5f);
-    public Vector2 slowInSlowOutTime = new Vector2(.5f, .5f);
+    [Header("Travel Speed for Small Particle")]
+    public Vector2 scaleUpSpeedMultiplierSP = new Vector2(.5f,.5f);
+    public Vector2 slowInSlowOutTimeSP = new Vector2(.5f, .5f);
+
+    [Header("Scale for Small Particle")]
+    public Vector3 maxLocalScaleSP = new Vector3(.2f,.2f,.2f);
+    public Vector3 originalLocalScaleSP = new Vector3(.05f,.05f,.05f);
+    public Vector2 slowInSlowOutSpeedSP = new Vector2(.5f, .5f);
 
     [Header("Inner Particle")]
     public Vector3 maxScaleSize = new Vector3(5f,5f,0f);
@@ -133,16 +137,16 @@ public class ParticleSystemTest : MonoBehaviour
         targetPos = GameObject.Find("ParticleEffect").transform;
         if (slowIn)
         {
-            smallParticleTranslateLerpTime *= slowInSlowOutSpeedMultiplier.x;
+            smallParticleTranslateLerpTime *= scaleUpSpeedMultiplierSP.x;
             slowIn = false;
-            Wait(slowInSlowOutTime.x);
+            Wait(slowInSlowOutTimeSP.x);
             slowOut = true;
         }
         if (slowOut)
         {
-            smallParticleTranslateLerpTime *= slowInSlowOutSpeedMultiplier.y;
+            smallParticleTranslateLerpTime *= scaleUpSpeedMultiplierSP.y;
             slowOut = false;
-            Wait(slowInSlowOutTime.y);
+            Wait(slowInSlowOutTimeSP.y);
         }
         if (!slowIn || !slowOut)
         {
